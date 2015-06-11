@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../builder/lib/builder/version', __FILE__)
+require File.expand_path('../lib/rspec-junit/version', __FILE__)
 
 Gem::Specification.new do |s|
   s.name         = 'opal-rspec-junit'
-  s.version      =  Builder::VERSION
+  s.version      =  OpalRspecJunit::VERSION
   s.author       = 'Brady Wied'
   s.email        = 'brady@bswtechconsulting.com'
   s.summary      = 'Builder for Opal'
