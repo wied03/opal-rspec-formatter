@@ -63,4 +63,8 @@ class Spec::Runner::Formatter::TeamcityFormatter
     }
     msg
   end
+  
+  # We can't flush @sout and @serr and we disabled output capturing anyways
+  def repair_process_output    
+  end
 end
