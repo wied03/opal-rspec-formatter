@@ -3,15 +3,15 @@ require 'opal-rspec'
 <% 
 spec_opts = ENV['SPEC_OPTS']
 if spec_opts
-	formatter_require_matches = spec_opts.scan /--require (\S+)/
+	requires = ::Opal::RSpec::RakeTask.get_requires
 	formatter_class_matches = spec_opts.scan /--format (\S+)/
-	if formatter_require_matches.any? and formatter_class_matches.any?
-		# TeamCity will try and add its own contents to SPEC_OPTS but we need to supercede those
-		valid_format_classes = formatter_class_matches.flatten.reject {|f| f == 'Spec::Runner::Formatter::TeamcityFormatter'}
-		formatter_class = valid_format_classes.last
-		valid_require_matches = formatter_require_matches.flatten.reject {|r| r == 'teamcity/spec/runner/formatter/teamcity/formatter' }
-	
-		valid_require_matches.each do |format_req|
+	if requires.any? and formatter_class_matches.any?
+		# TeamCity will add its own contents to SPEC_OPTS but we need to supercede those
+		requires = requires.map {|r| r == 'teamcity/spec/runner/formatter/teamcity/formatter' ? 'opal/rspec/formatters/teamcity' : r}
+		formats = formatter_class_matches.flatten.map {|f| f == 'Spec::Runner::Formatter::TeamcityFormatter' ? 'Opal::RSpec::Formatters::TeamCity' : f}		
+
+		formatter_class = formats.last	
+		requires.each do |format_req|
 %>	
 			require '<%= format_req %>'
 	<% end %>
