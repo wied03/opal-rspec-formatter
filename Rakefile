@@ -13,5 +13,5 @@ task :default do
   puts "got xml #{xml}"
 end
 
-# TODO: Figure out why we have so many carriage returns, especially the ones on the closing tags
+# TODO: Rename this project to opal-rspec-formatters
 # TODO: Create a new Rake task that parses the XML from stdout and writes it to a file

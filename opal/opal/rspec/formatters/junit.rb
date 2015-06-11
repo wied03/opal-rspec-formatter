@@ -8,10 +8,18 @@ module Opal
             :start,
             :stop,
             :dump_summary
+            
+        def initialize
+          # with console output, new lines will be all over the place
+          super output=StringIO.new
+        end
       
         def dump_summary(notification)
           @summary_notification = notification
           xml_dump
+          puts '---begin xml---'
+          puts output.string
+          puts '---end xml---'
           if notification.pending_count > 0
             finish_with_code(1)
           elsif notification.failure_count == 0
