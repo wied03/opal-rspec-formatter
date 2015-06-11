@@ -28,6 +28,29 @@ module Opal
             finish_with_code(1)
           end
         end
+        
+        # def xml_dump
+#           xml.instruct!
+#           # Don't have environment variables here, so just opal-rspec for now
+#           xml.testsuite name: "opal-rspec", tests: example_count, failures: failure_count, errors: 0, time: "%.6f" % duration, timestamp: started.iso8601 do
+#             xml.comment! "Randomized with seed #{RSpec.configuration.seed}"
+#             xml.properties
+#             xml_dump_examples
+#           end
+#         end
+
+        # class name based on filename is not that meaningful in the JS world
+        def classname_for(notification)
+          group = notification.example.example_group
+          # Don't need to show the top level/example group
+          show = group.parent_groups.reject {|g| g == ::RSpec::Core::ExampleGroup}
+          show.reverse.map {|g| g.description}.join '::'
+        end
+        
+        # Since we include most of the description under classname, only need stuff for this example here
+        def description_for(notification)
+          notification.example.description
+        end
   
         def finish_with_code(code)
           %x{
