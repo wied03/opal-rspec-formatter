@@ -15,5 +15,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'opal', ['>= 0.7.0', '< 0.9']
   s.add_dependency 'opal-builder', '~> 3.2'
+  s.add_dependency 'rspec_junit_formatter'
   s.add_development_dependency 'rake'
 end
