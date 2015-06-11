@@ -1,4 +1,4 @@
-describe 'TeamCity' do
+describe 'TeamCity', skip: 'No TeamCity on Travis' do
   let(:command) {
     "RUBYLIB='../teamcity/patch/common:../teamcity/patch/bdd' SPEC_OPTS='#{spec_opts}' rake raw_specs"
   }
