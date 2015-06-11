@@ -1,9 +1,11 @@
 require 'rspec_junit_formatter'
+require 'opal/rspec/formatters/phantom_util'
 
 module Opal
   module RSpec
     module Formatters
       class Junit < ::RSpecJUnitFormatter
+        include Opal::RSpec::Formatters::PhantomUtil
         ::RSpec::Core::Formatters.register self,
             :start,
             :stop,
@@ -20,13 +22,7 @@ module Opal
           puts '---begin xml---'
           puts output.string
           puts '---end xml---'
-          if notification.pending_count > 0
-            finish_with_code(1)
-          elsif notification.failure_count == 0
-            finish_with_code(0)          
-          else
-            finish_with_code(1)
-          end
+          finish_phantom notification
         end     
 
         # class name based on filename is not that meaningful in the JS world
@@ -40,18 +36,7 @@ module Opal
         # Since we include most of the description under classname, only need stuff for this example here
         def description_for(notification)
           notification.example.description
-        end
-  
-        def finish_with_code(code)
-          %x{
-            if (typeof(phantom) !== "undefined") {
-              phantom.exit(code);
-            }
-            else {
-              Opal.global.OPAL_SPEC_CODE = code;
-            }
-          }
-        end
+        end        
       end
     end  
   end
