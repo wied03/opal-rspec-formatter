@@ -4,12 +4,10 @@ describe 'TeamCity', skip: 'No TeamCity on Travis' do
   end
   
   let(:command) {
-    "RUBYLIB='#{load_path}' SPEC_OPTS='#{spec_opts}' rake raw_specs"
+    "RUBYLIB='#{load_path}' SPEC_OPTS='#{spec_opts}' rake raw_specs 2>&1"
   }
   
-  subject {
-    `#{command}`
-  }
+  subject { `#{command}` }
   
   RSpec.shared_context :example do
     it { is_expected.to match /##teamcity\[testSuiteFinished/ }
@@ -26,10 +24,10 @@ describe 'TeamCity', skip: 'No TeamCity on Travis' do
       include_context :example
     end
     
-    xcontext 'not found' do
+    context 'not found' do
       let(:load_path) { '../teamcity/patch_foo/common:../teamcity/patch/bdd_foo' }
       
-      it { is_expected.to match /TeamCity formatter supplied, but was not able to find Teamcity classes in load path/ }
+      it { is_expected.to match /TeamCity formatter require \(\S+\) supplied, but was not able to find Teamcity classes in Opal paths.*/ }
     end
   end
   

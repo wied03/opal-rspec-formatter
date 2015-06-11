@@ -44,7 +44,7 @@ class Opal::RSpec::RakeTask
     paths = server.sprockets.paths
     found = paths.find {|p| File.exist?(File.join(p, filename))}
     unless found
-      raise "Searched #{Opal.paths} for #{filename} but was not able to find it!"
+      raise "TeamCity formatter require (#{filename}) supplied, but was not able to find Teamcity classes in Opal paths #{Opal.paths}. By default, anything in the Ruby load path that matches #{get_default_teamcity_load_path_expressions} will be used. If this needs to be changed, supply -- append_exp_from_load_path in the SPEC_OPTS env variable with another regex."
     end
   end
   
