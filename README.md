@@ -55,10 +55,13 @@ If you omit either of these settings, the default opal-rspec formatter will be u
 
 Example:
 ```bash
-SPEC_OPTS="--append_exp_from_load_path patch/bdd --append_exp_from_load_path patch/common --require opal/rspec/formatters/teamcity --format Opal::RSpec::Formatters::TeamCity" rake
+# TeamCity/RubyMine will normally add all this for you and all you need to do is run your Rake task within its environment
+RUBYLIB="/Applications/RubyMine.app/Contents/rb/testing/patch/bdd:/Applications/RubyMine.app/Contents/rb/testing/patch/common" SPEC_OPTS="--require teamcity/spec/runner/formatter/teamcity/formatter --format Spec::Runner::Formatter::TeamcityFormatter" rake
 ```
 
-'append_exp_from_load_path' is there to avoid distributing a copy of the TeamCity formatter, we only include the patches here. TeamCity and Rubymine usually include the load path to their formatters when they launch Ruby. The append_exp_from_load_path parameter will cause this GEM to selectively add items in the Ruby load path that match the given expression to the Opal load path.
+This GEM will look for anything on the load path that matches patch/common or patch/bdd and add it to the Opal path for you. It will also change the formatter class from the stock one (Spec::Runner::Formatter::TeamcityFormatter) to Opal::RSpec::Formatters::TeamCity automatically. If these items change, you can supply 'append_exp_from_load_path' in SPEC_OPTS to specify different expressions for locating the TeamCity/RubyMine files in the load path.
+
+In order to avoid distributing a copy of the TeamCity formatter, we only include the patches here.
 
 #### Custom
 This GEM currently includes a JUnit XML formatter and patches to make the TeamCity/Rubymine runner work, but you can use any formatter you can get working with Opal.
