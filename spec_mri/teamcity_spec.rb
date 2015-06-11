@@ -1,5 +1,5 @@
 describe 'TeamCity', skip: 'No TeamCity on Travis' do
-  before :all do
+  before do
     raise "Ensure you've copied the /Applications/RubyMine.app/Contents/rb/testing directory to ../teamcity before running" unless Dir.exist?('../teamcity')
   end
   
