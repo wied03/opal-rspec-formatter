@@ -6,7 +6,7 @@ An attempt at making the builder XML gem work with Opal
 
 ## Usage
 
-Add `opal-rspec-formatter` to your Gemfile (once this is published to Rubygems, TBD):
+Add `opal-rspec-formatter` to your Gemfile:
 
 ```ruby
 gem 'opal-rspec-formatter'
@@ -69,7 +69,8 @@ This GEM currently includes a JUnit XML formatter and patches to make the TeamCi
 ## Limitations:
 
 ### General
-* This is still under development, so right now, the XML is just echo'ed to the console. A wrapper task is planned that will write the XML to a file for you.
+* Tested on Opal 0.8 and a branch of opal-rspec (see Gemfile)
+* Right now, the XML is just echo'ed to the console. A wrapper task is planned that will write the XML to a file for you.
 * The formatter must be on the Opal load path. If it's not, you'll need to append_paths when you define your Rake task (see opal-rspec info)
 * Of the various SPEC_OPTS possibilities RSpec supports, only --require and --format are supported with this GEM
 
