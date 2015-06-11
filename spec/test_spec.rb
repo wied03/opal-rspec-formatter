@@ -1,9 +1,3 @@
-require 'opal/spec_opal_junit_formatter'
-
-RSpec.configure do |config|
-  config.default_formatter = SpecOpalJunitFormatter
-end
-
 describe 'foobar' do
   subject { true }
   

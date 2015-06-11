@@ -4,7 +4,10 @@ Bundler.require
 Bundler::GemHelper.install_tasks
 
 require 'opal/rspec/rake_task'
-Opal::RSpec::RakeTask.new(:raw_specs)
+
+Opal::RSpec::RakeTask.new(:raw_specs) do |s|
+  s.main = 'opal/rspec/sprockets_runner_junit'
+end
 
 task :default do
   output = `rake raw_specs`
