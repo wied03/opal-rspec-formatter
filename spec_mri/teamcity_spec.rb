@@ -9,9 +9,13 @@ describe 'TeamCity', skip: 'No TeamCity on Travis' do
   
   subject { `#{command}` }
   
-  RSpec.shared_context :example do
+  RSpec.shared_context :success_example do
     it { is_expected.to match /##teamcity\[testSuiteFinished/ }
-  end  
+  end
+  
+  RSpec.shared_context :fail_example do
+    it { is_expected.to match /TeamCity formatter require \(\S+\) supplied, but was not able to find Teamcity classes in Opal paths.*/ }
+  end 
   
   context 'default' do    
     let(:spec_opts) {
@@ -21,35 +25,35 @@ describe 'TeamCity', skip: 'No TeamCity on Travis' do
     context 'found' do
       let(:load_path) { '../teamcity/patch/common:../teamcity/patch/bdd' }
       
-      include_context :example
+      include_context :success_example
     end
     
     context 'not found' do
       let(:load_path) { '../teamcity/patch_foo/common:../teamcity/patch/bdd_foo' }
       
-      it { is_expected.to match /TeamCity formatter require \(\S+\) supplied, but was not able to find Teamcity classes in Opal paths.*/ }
+      include_context :fail_example
     end
   end
   
-  xcontext 'custom append exp settings' do
+  context 'custom append exp settings' do
     before do
-      FileUtils.mv '../teamcity/patch/bdd', '../teamcity/patch/bdd_foo'
-      FileUtils.mv '../teamcity/patch/common', '../teamcity/patch/common_foo'
+      FileUtils.mv '../teamcity/patch/bdd', '../teamcity/patch/foo_bdd'
+      FileUtils.mv '../teamcity/patch/common', '../teamcity/patch/foo_common'
     end
     
     after do
-      FileUtils.mv '../teamcity/patch/bdd_foo', '../teamcity/patch/bdd'
-      FileUtils.mv '../teamcity/patch/common_foo', '../teamcity/patch/common'
+      FileUtils.mv '../teamcity/patch/foo_bdd', '../teamcity/patch/bdd'
+      FileUtils.mv '../teamcity/patch/foo_common', '../teamcity/patch/common'
     end
     
-    let(:load_path) { '../teamcity/patch/common_foo:../teamcity/patch/bdd_foo' }
+    let(:load_path) { '../teamcity/patch/foo_common:../teamcity/patch/foo_bdd' }
     
     context 'found' do
       let(:spec_opts) {
-        '--append_exp_from_load_path patch/bdd_foo --append_exp_from_load_path patch/common_foo --require teamcity/spec/runner/formatter/teamcity/formatter --format Spec::Runner::Formatter::TeamcityFormatter'
+        '--append_exp_from_load_path patch/foo_bdd --append_exp_from_load_path patch/foo_common --require teamcity/spec/runner/formatter/teamcity/formatter --format Spec::Runner::Formatter::TeamcityFormatter'
       } 
       
-      include_context :example
+      include_context :success_example
     end
     
     context 'not found' do
@@ -57,7 +61,7 @@ describe 'TeamCity', skip: 'No TeamCity on Travis' do
         '--append_exp_from_load_path patch/bdd_2 --append_exp_from_load_path patch/common_2 --require teamcity/spec/runner/formatter/teamcity/formatter --format Spec::Runner::Formatter::TeamcityFormatter'
       }
       
-      it { is_expected.to match /TeamCity formatter supplied, but was not able to find Teamcity classes in load path/ }
+      include_context :fail_example
     end
   end  
 end
