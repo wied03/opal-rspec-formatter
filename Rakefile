@@ -4,13 +4,11 @@ Bundler.require
 Bundler::GemHelper.install_tasks
 
 require 'opal/rspec-formatter/rake_task'
+require 'rspec/core/rake_task'
 
 Opal::RSpec::RakeTask.new(:raw_specs)
-
-task :default do
-  output = `SPEC_OPTS="--require opal/rspec/formatters/junit --format Opal::RSpec::Formatters::Junit" rake raw_specs`
-  xml = /<\?xml.*\<\/testsuite\>/m.match(output)
-  puts "got xml #{xml}"
+RSpec::Core::RakeTask.new(:spec) do |s|
+  s.pattern = 'spec_mri/**/*_spec.rb'
 end
 
 # TODO: Create a new Rake task that parses the XML from stdout and writes it to a file
