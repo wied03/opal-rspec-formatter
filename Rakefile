@@ -5,7 +5,7 @@ Bundler::GemHelper.install_tasks
 
 require 'opal/rspec-junit/rake_task'
 
-Opal::RspecJunit::RakeTask.new(:raw_specs)
+Opal::RSpec::RakeTask.new(:raw_specs)
 
 task :default do
   output = `rake raw_specs`

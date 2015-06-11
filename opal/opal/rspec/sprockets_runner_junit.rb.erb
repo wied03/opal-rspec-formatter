@@ -1,11 +1,13 @@
 require 'opal'
 require 'opal-rspec'
+# TODO: Derive this from a '--require' setting in SPEC_OPTS
 require 'opal/spec_opal_junit_formatter'
 
 RSpec.configure do |config|
+	# TODO: Derive this from a '--format' setting in SPEC_OPTS
   config.default_formatter = <%= ENV['SPEC_OPTS'] %>
 end
 
 # We've interrupted the usual opal-rspec flow to set the formatter, now run the rest of the 's.main' code
-# This was set in the RspecJunit Rake task
+# This environment variable was set in the RspecJunit Rake task
 require <%= ENV['opal_rspec_after_formatter_set'].inspect %>
