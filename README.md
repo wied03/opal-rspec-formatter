@@ -22,7 +22,7 @@ require 'opal/rspec-formatter/rake_task'
 Opal::RSpec::RakeTask.new(:default)
 ```
 
-This GEM currently includes a JUnit XML formatter, but you can use any formatter you can get working with Opal.
+#### JUnit
 
 Now on the command line, supply the SPEC_OPTS environment variable. Example:
 
@@ -32,10 +32,28 @@ SPEC_OPTS="--require opal/rspec/formatters/junit --format Opal::RSpec::Formatter
 
 If you omit either of these settings, the default opal-rspec formatter will be used (TextFormatter)
 
-Limitations:
+#### TeamCity
+
+Example:
+```bash
+SPEC_OPTS="--append_exp_from_load_path patch/bdd --append_exp_from_load_path patch/common --require opal/rspec/formatters/teamcity --format Opal::RSpec::Formatters::TeamCity" rake
+```
+
+'append_exp_from_load_path' is there to avoid distributing a copy of the TeamCity formatter, we only include the patches here. TeamCity and Rubymine usually include the load path to their formatters when they launch Ruby. The append_exp_from_load_path parameter will cause this GEM to selectively add items in the Ruby load path that match the given expression to the Opal load path.
+
+#### Custom
+This GEM currently includes a JUnit XML formatter and patches to make the TeamCity/Rubymine runner work, but you can use any formatter you can get working with Opal.
+
+## Limitations:
+
+### General
 * This is still under development, so right now, the XML is just echo'ed to the console. A wrapper task is planned that will write the XML to a file for you.
 * The formatter must be on the Opal load path. If it's not, you'll need to append_paths when you define your Rake task (see opal-rspec info)
 * Of the various SPEC_OPTS possibilities RSpec supports, only --require and --format are supported with this GEM
+
+### TeamCity
+* Does not support output capturing
+* Tweaks how example start/finish reporting works in order to work better with implicit subjects (see https://youtrack.jetbrains.com/issue/RUBY-15519). The side effect is that although test durations will be correct, the test start event is not reported until the test finishes.
 
 ## Contributing
 
