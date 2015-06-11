@@ -8,7 +8,7 @@ require 'opal/rspec-junit/rake_task'
 Opal::RSpec::RakeTask.new(:raw_specs)
 
 task :default do
-  output = `rake raw_specs`
+  output = `SPEC_OPTS="--require opal/spec_opal_junit_formatter --format SpecOpalJunitFormatter" rake raw_specs`
   xml = /<\?xml.*\<\/testsuite\>/m.match(output)
   puts "got xml #{xml}"
 end
