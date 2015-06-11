@@ -13,6 +13,14 @@ class Opal::RSpec::RakeTask
       # TODO: Surely a better way than environment variables to pass this on?          
       ENV['opal_rspec_after_formatter_set'] = run_before_this
       server.main = 'opal/rspec/sprockets_runner_customformat'
+      regexes = ENV['SPEC_OPTS'].scan /--append_exp_from_load_path (\S+)/
+      regexes.each do |r|
+        exp = Regexp.new(Regexp.escape(r[0]))
+        matches = $:.select {|path| exp.match(path)}
+        matches.each do |load_path|
+          server.append_path load_path
+        end
+      end
     end
     orig_init name, &runner_block
   end      
