@@ -2,21 +2,23 @@ require 'opal'
 require 'opal-rspec'
 <% 
 spec_opts = ENV['SPEC_OPTS']
-formatter_require_matches = spec_opts.scan /--require (\S+)/
-formatter_class_match = /--format (\S+)/.match(spec_opts)
-if formatter_require_matches.any? and formatter_class_match
-	formatter_class = formatter_class_match.captures[0]
+if spec_opts
+	formatter_require_matches = spec_opts.scan /--require (\S+)/
+	formatter_class_match = /--format (\S+)/.match(spec_opts)
+	if formatter_require_matches.any? and formatter_class_match
+		formatter_class = formatter_class_match.captures[0]
 	
-	formatter_require_matches.flatten.each do |format_req|
+		formatter_require_matches.flatten.each do |format_req|
 %>	
-		require '<%= format_req %>'
+			require '<%= format_req %>'
 	<% end %>
 
-	RSpec.configure do |config|
-	  config.default_formatter = <%= formatter_class %>
+		RSpec.configure do |config|
+		  config.default_formatter = <%= formatter_class %>
+		end
+<% 
 	end
-
-<% end %>
+end %>
 
 # We've interrupted the usual opal-rspec flow to set the formatter, now run the rest of the 's.main' code
 # This environment variable was set in the Rake task monkey patch in this GEM
