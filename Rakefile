@@ -3,7 +3,7 @@ Bundler.require
 
 Bundler::GemHelper.install_tasks
 
-require 'opal/rspec-junit/rake_task'
+require 'opal/rspec-formatter/rake_task'
 
 Opal::RSpec::RakeTask.new(:raw_specs)
 
