@@ -1,13 +1,13 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/opal/rspec-junit/version', __FILE__)
+require File.expand_path('../lib/opal/rspec-formatter/version', __FILE__)
 
 Gem::Specification.new do |s|
-  s.name         = 'opal-rspec-junit'
-  s.version      =  OpalRspecJunit::VERSION
+  s.name         = 'opal-rspec-formatter'
+  s.version      =  Opal::RSpec::Formatter::VERSION
   s.author       = 'Brady Wied'
   s.email        = 'brady@bswtechconsulting.com'
-  s.summary      = 'Builder for Opal'
-  s.description  = 'Opal compatible builder library'
+  s.summary      = 'Allows command line control over Opal-RSpec formatters, includes JUnit formtter'
+  s.description  = 'Allows controlling what formatter the opal-rspec Rake task uses'
 
   s.files = `git ls-files`.split("\n")
 

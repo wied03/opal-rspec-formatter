@@ -13,5 +13,4 @@ task :default do
   puts "got xml #{xml}"
 end
 
-# TODO: Rename this project to opal-rspec-formatters
 # TODO: Create a new Rake task that parses the XML from stdout and writes it to a file
