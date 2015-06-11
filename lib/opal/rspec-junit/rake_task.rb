@@ -12,7 +12,7 @@ class Opal::RSpec::RakeTask
       run_before_this = server.main
       # TODO: Surely a better way than environment variables to pass this on?          
       ENV['opal_rspec_after_formatter_set'] = run_before_this
-      server.main = "opal/rspec/sprockets_runner_junit"
+      server.main = 'opal/rspec/sprockets_runner_customformat'
     end
     orig_init name, &runner_block
   end      

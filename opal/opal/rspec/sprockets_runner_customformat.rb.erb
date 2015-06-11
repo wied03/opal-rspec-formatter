@@ -17,5 +17,5 @@ if formatter_require_match and formatter_class_match
 <% end %>
 
 # We've interrupted the usual opal-rspec flow to set the formatter, now run the rest of the 's.main' code
-# This environment variable was set in the RspecJunit Rake task
+# This environment variable was set in the Rake task monkey patch in this GEM
 require <%= ENV['opal_rspec_after_formatter_set'].inspect %>
