@@ -2,7 +2,7 @@
 
 [![Build Status](http://img.shields.io/travis/wied03/opal-rspec-formatter/master.svg?style=flat)](http://travis-ci.org/wied03/opal-rspec-formatter)
 
-An attempt at making the builder XML gem work with Opal
+Make the JUnit and Jetbrains provided TeamCity formatters work with opal-rspec
 
 ## Usage
 
@@ -69,7 +69,7 @@ This GEM currently includes a JUnit XML formatter and patches to make the TeamCi
 ## Limitations:
 
 ### General
-* Tested on Opal 0.8 and a branch of opal-rspec (see Gemfile)
+* Tested on Opal 0.8, Opal 0.9/master and a branch of opal-rspec (see Gemfile)
 * Right now, the XML is just echo'ed to the console. A wrapper task is planned that will write the XML to a file for you.
 * The formatter must be on the Opal load path. If it's not, you'll need to append_paths when you define your Rake task (see opal-rspec info)
 * Of the various SPEC_OPTS possibilities RSpec supports, only --require and --format are supported with this GEM
@@ -87,16 +87,6 @@ Install required gems at required versions:
 A simple rake task should run the example specs in `spec/`:
 
     $ bundle exec rake
-
-### Run in the browser
-
-Run attached rack app to handle building:
-
-    $ bundle exec rackup
-
-Visit the page in any browser and view the console:
-
-    $ open http://localhost:9292
 
 ## License
 
