@@ -3,34 +3,34 @@ require 'nokogiri'
 describe 'JUnit' do
   context 'no env variable set' do
     subject do
-      `rake raw_specs`      
+      `rake raw_specs`
     end
-    
-    it { is_expected.to match /2 examples, 1 failures, 0 pending/ }
+
+    it { is_expected.to match /2 examples, 1 failure/ }
   end
-  
+
   context 'env variable supplied' do
     RSpec::Matchers.define :have_xpath do |xpath|
       get_item = lambda do |document|
         results = document.xpath(xpath)
-        results = results.map {|r| r.text }      
+        results = results.map {|r| r.text }
         results.length == 1 ? results[0] : results
       end
-    
+
       match do |document|
         actual = get_item[document]
         @value.is_a?(Regexp) ? @value.match(actual) : (actual == @value)
       end
-    
+
       failure_message do |document|
         "Expected #{@value} but got #{get_item[document]}"
       end
-    
+
       chain :with_value do |value|
         @value = value
       end
     end
-  
+
     before :context do
       # this is expensive to run!
       output = `SPEC_OPTS="--require opal/rspec/formatters/junit --format Opal::RSpec::Formatters::Junit" rake raw_specs`
@@ -39,9 +39,9 @@ describe 'JUnit' do
         config.strict
       end
     end
-  
+
     subject { @@parsed }
-  
+
     it { is_expected.to have_xpath('/testsuite/@tests').with_value('2') }
     it { is_expected.to have_xpath('/testsuite/@failures').with_value('1') }
     it { is_expected.to have_xpath('/testsuite/@errors').with_value('0') }
