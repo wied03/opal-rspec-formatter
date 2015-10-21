@@ -33,8 +33,8 @@ describe 'JUnit' do
 
     before :context do
       # this is expensive to run!
-      output = `SPEC_OPTS="--require opal/rspec/formatters/junit --format Opal::RSpec::Formatters::Junit" rake raw_specs`
-      xml = /<\?xml.*\<\/testsuite\>/m.match(output)[0]
+      @@output = `SPEC_OPTS="--require opal/rspec/formatters/junit --format Opal::RSpec::Formatters::Junit" rake raw_specs`
+      xml = /<\?xml.*\<\/testsuite\>/m.match(@@output)[0]
       @@parsed = Nokogiri::XML xml do |config|
         config.strict
       end
@@ -48,5 +48,9 @@ describe 'JUnit' do
     it { is_expected.to have_xpath('/testsuite/testcase/@classname').with_value(%w{foobar::succeeds foobar::fails}) }
     it { is_expected.to have_xpath('/testsuite/testcase/@name').with_value(['should eq true', 'should eq false']) }
     it { is_expected.to have_xpath('/testsuite/testcase[@classname="foobar::fails"]/failure/@message').with_value(/expected: false.*got: true/m) }
+
+    it 'does not time out' do
+      expect(@@output).to_not match /Specs timed out/
+    end
   end
 end

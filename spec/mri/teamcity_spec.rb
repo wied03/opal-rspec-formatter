@@ -7,14 +7,20 @@ describe 'TeamCity', skip: 'No TeamCity on Travis' do
     "RUBYLIB='#{load_path}' SPEC_OPTS='#{spec_opts}' rake raw_specs 2>&1"
   }
 
-  subject { `#{command}` }
+  subject(:output) { `#{command}` }
 
   RSpec.shared_context :success_example do
-    it { is_expected.to match /##teamcity\[testSuiteFinished/ }
+    it 'succeeds' do
+      expect(output).to match /##teamcity\[testSuiteFinished/
+      expect(output).to_not match /Specs timed out/
+    end
   end
 
   RSpec.shared_context :fail_example do
-    it { is_expected.to match /TeamCity formatter require \(\S+\) supplied, but was not able to find Teamcity classes in Opal paths.*/ }
+    it 'fails' do
+      expect(output).to match /TeamCity formatter require \(\S+\) supplied, but was not able to find Teamcity classes in Opal paths.*/
+      expect(output).to_not match /Specs timed out/
+    end
   end
 
   context 'default' do
