@@ -1,3 +1,5 @@
+require_relative 'spring_support'
+
 describe 'TeamCity', if: Dir.exist?('../teamcity') do
   let(:command) {
     "RUBYLIB='#{load_path}' SPEC_OPTS='#{spec_opts}' rake raw_specs 2>&1"
@@ -34,6 +36,20 @@ describe 'TeamCity', if: Dir.exist?('../teamcity') do
       let(:load_path) { '../teamcity/patch_foo/common:../teamcity/patch/bdd_foo' }
 
       include_context :fail_example
+    end
+
+    context 'spring' do
+      include_context :spring
+      # inside test_app
+      let(:load_path) { '../../teamcity/patch/common:../../teamcity/patch/bdd' }
+      let(:env_vars) {
+        {
+            'SPEC_OPTS' => spec_opts,
+            'RUBYLIB' => load_path
+        }
+      }
+
+      it { is_expected.to match /##teamcity\[testSuiteFinished/ }
     end
   end
 

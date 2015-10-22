@@ -1,10 +1,16 @@
 RSpec.shared_context :spring do
+  let(:env_vars) {
+    {
+        'SPEC_OPTS' => spec_opts
+    }
+  }
   # Spring seems goofy unless we use File I/O
   def run_stuff(command)
     file = Tempfile.new 'spring_test'
     file.close
     begin
-      redir = "SPEC_OPTS='#{spec_opts}' #{command} 1> #{file.path} 2>&1"
+      env_flat = env_vars.map { |k, v| "#{k}='#{v}'" }.join ' '
+      redir = "#{env_flat} #{command} 1> #{file.path} 2>&1"
       success = Bundler.clean_system redir
       output = File.read(file.path)
       raise "'#{command}' failed with output\n#{output.strip}" unless success
