@@ -1,4 +1,5 @@
 require 'nokogiri'
+require_relative 'spring_support'
 
 describe 'JUnit' do
   context 'no env variable set' do
@@ -13,7 +14,7 @@ describe 'JUnit' do
     RSpec::Matchers.define :have_xpath do |xpath|
       get_item = lambda do |document|
         results = document.xpath(xpath)
-        results = results.map {|r| r.text }
+        results = results.map { |r| r.text }
         results.length == 1 ? results[0] : results
       end
 
@@ -52,5 +53,12 @@ describe 'JUnit' do
     it 'does not time out' do
       expect(@@output).to_not match /Specs timed out/
     end
+  end
+
+  context 'spring' do
+    include_context :spring
+    let(:spec_opts) { '--require opal/rspec/formatters/junit --format Opal::RSpec::Formatters::Junit' }
+
+    it { is_expected.to match /<\?xml.*\<\/testsuite\>/m }
   end
 end

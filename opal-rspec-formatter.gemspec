@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.description  = 'Allows controlling what formatter the opal-rspec Rake task uses, includes JUnit and TeamCity formtter patches'
   s.homepage     = 'https://github.com/wied03/opal-rspec-formatter'
 
-  s.files = `git ls-files`.split("\n")
+  s.files = Dir.glob('lib/**/*.rb') + Dir.glob('opal/**/*.rb')
 
   s.require_paths  = ['lib']
 

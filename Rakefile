@@ -1,7 +1,8 @@
 Bundler::GemHelper.install_tasks
 
-require 'opal/rspec-formatter/rake_task'
 require 'rspec/core/rake_task'
+require 'opal/rspec/rake_task'
+require 'opal/rspec-formatter/tc_pre_rack_locator'
 
 Opal::RSpec::RakeTask.new(:raw_specs) do |_, task|
   task.pattern = 'spec/opal/**/*_spec.rb'
