@@ -1,8 +1,4 @@
-describe 'TeamCity', skip: 'No TeamCity on Travis' do
-  before do
-    raise "Ensure you've copied the /Applications/RubyMine.app/Contents/rb/testing directory to ../teamcity before running" unless Dir.exist?('../teamcity')
-  end
-
+describe 'TeamCity', if: Dir.exist?('../teamcity') do
   let(:command) {
     "RUBYLIB='#{load_path}' SPEC_OPTS='#{spec_opts}' rake raw_specs 2>&1"
   }

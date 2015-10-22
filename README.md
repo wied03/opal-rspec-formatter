@@ -14,33 +14,6 @@ gem 'opal-rspec-formatter'
 
 ### Use in your application
 
-#### General
-
-In your Rakefile, make the following change
-
-```ruby
-# Note this require replaces require 'opal/rspec/rake_task'
-require 'opal/rspec-formatter/rake_task'
-# Can make the usual adjustments as documented in the opal-rspec project by supplying a block
-Opal::RSpec::RakeTask.new(:default)
-```
-
-#### Opal-Rails
-
-If you are using opal-rails, you will not have require 'opal/rspec/rake_task' in your Rakefile because the opal:spec task is created from the opal-rails gem. You need to add the require to the top level Rakefile **before** opal-rails loads its task so that the formatter changes will take effect. It should look something like this:
-
-```ruby
-# Add your own tasks in files placed in lib/tasks ending in .rake,
-# for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
-
-require File.expand_path('../config/application', __FILE__)
-
-# needs to go in before opal-rails (which is triggered by Rails.application.load_tasks)
-require 'opal/rspec-formatter/rake_task'
-
-Rails.application.load_tasks
-```
-
 #### JUnit
 
 Now on the command line, supply the SPEC_OPTS environment variable. Example:
