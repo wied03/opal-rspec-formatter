@@ -1,4 +1,15 @@
+require 'tempfile'
+
 RSpec.shared_context :spring do
+  before :all do
+    Dir.chdir 'test_app' do
+      output = Bundler.with_clean_env do
+        `bundle install`
+      end
+      puts output
+      raise unless $?.success?
+    end
+  end
   let(:env_vars) {
     {
         'SPEC_OPTS' => spec_opts
@@ -47,6 +58,6 @@ RSpec.shared_context :spring do
   end
 
   subject(:output) {
-    run_spring 'orspec'
+    run_spring 'opal-rspec'
   }
 end
