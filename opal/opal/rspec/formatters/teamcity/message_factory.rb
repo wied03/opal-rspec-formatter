@@ -22,4 +22,23 @@ module Rake::TeamCity::MessageFactory
 
     copy_of_text
   end
+
+  # Opal 0.8 doesn't support usec
+  def self.convert_time_to_java_simple_date(time)
+    if MOCK_ATTRIBUTES_VALUES[:time][:enabled]
+      return MOCK_ATTRIBUTES_VALUES[:time][:value]
+    end
+    gmt_offset = time.gmt_offset
+    gmt_sign = gmt_offset < 0 ? "-" : "+"
+    gmt_hours = gmt_offset.abs / 3600
+    gmt_minutes = gmt_offset.abs % 3600
+
+    # Opal 0.8 doesn't support usec
+    usec = `#{time}.getMilliseconds() * 1000`
+    millisec = usec == 0 ? 0 : usec / 1000
+    #millisec = time.usec == 0 ? 0 : time.usec / 1000
+
+    #Time string in Java SimpleDateFormat
+    sprintf("#{time.strftime("%Y-%m-%dT%H:%M:%S.")}%03d#{gmt_sign}%02d%02d", millisec, gmt_hours, gmt_minutes)
+  end
 end
