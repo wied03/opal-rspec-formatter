@@ -60,8 +60,8 @@ class Opal::RSpec::TcPreRackLocator < Opal::RSpec::PreRackLocator
 end
 
 class Opal::RSpec::SprocketsEnvironment
-  def initialize(spec_pattern=nil, spec_exclude_pattern=nil, spec_files=nil)
-    @locator = Opal::RSpec::TcPreRackLocator.new spec_pattern, spec_exclude_pattern, spec_files
+  def initialize(spec_pattern=nil, spec_exclude_pattern=nil, spec_files=nil, default_path=nil)
+    @locator = Opal::RSpec::TcPreRackLocator.new spec_pattern, spec_exclude_pattern, spec_files, default_path
     super()
   end
 end
