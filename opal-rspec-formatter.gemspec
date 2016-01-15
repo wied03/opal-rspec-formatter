@@ -10,13 +10,11 @@ Gem::Specification.new do |s|
   s.description  = 'Allows controlling what formatter the opal-rspec Rake task uses, includes JUnit and TeamCity formtter patches'
   s.homepage     = 'https://github.com/wied03/opal-rspec-formatter'
 
-  s.files = `git ls-files`.split("\n")
+  s.files = Dir.glob('lib/**/*.rb') + Dir.glob('opal/**/*.rb')
 
   s.require_paths  = ['lib']
 
-  s.add_dependency 'opal', ['>= 0.7.0', '< 0.9']
-  # This isn't released yet, but still need to reflect it in here
-  s.add_dependency 'opal-rspec', '> 0.4'
+  s.add_dependency 'opal-rspec', '>= 0.5.0'
   s.add_dependency 'opal-builder', '~> 3.2'
   s.add_dependency 'rspec_junit_formatter'
   s.add_development_dependency 'rake'

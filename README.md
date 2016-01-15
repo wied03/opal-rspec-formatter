@@ -2,7 +2,7 @@
 
 [![Build Status](http://img.shields.io/travis/wied03/opal-rspec-formatter/master.svg?style=flat)](http://travis-ci.org/wied03/opal-rspec-formatter)
 
-An attempt at making the builder XML gem work with Opal
+Make the JUnit and Jetbrains provided TeamCity formatters work with opal-rspec
 
 ## Usage
 
@@ -13,33 +13,6 @@ gem 'opal-rspec-formatter'
 ```
 
 ### Use in your application
-
-#### General
-
-In your Rakefile, make the following change
-
-```ruby
-# Note this require replaces require 'opal/rspec/rake_task'
-require 'opal/rspec-formatter/rake_task'
-# Can make the usual adjustments as documented in the opal-rspec project by supplying a block
-Opal::RSpec::RakeTask.new(:default)
-```
-
-#### Opal-Rails
-
-If you are using opal-rails, you will not have require 'opal/rspec/rake_task' in your Rakefile because the opal:spec task is created from the opal-rails gem. You need to add the require to the top level Rakefile **before** opal-rails loads its task so that the formatter changes will take effect. It should look something like this:
-
-```ruby
-# Add your own tasks in files placed in lib/tasks ending in .rake,
-# for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
-
-require File.expand_path('../config/application', __FILE__)
-
-# needs to go in before opal-rails (which is triggered by Rails.application.load_tasks)
-require 'opal/rspec-formatter/rake_task'
-
-Rails.application.load_tasks
-```
 
 #### JUnit
 
@@ -69,7 +42,7 @@ This GEM currently includes a JUnit XML formatter and patches to make the TeamCi
 ## Limitations:
 
 ### General
-* Tested on Opal 0.8 and a branch of opal-rspec (see Gemfile)
+* Tested on Opal 0.8, Opal 0.9/master and a branch of opal-rspec (see Gemfile)
 * Right now, the XML is just echo'ed to the console. A wrapper task is planned that will write the XML to a file for you.
 * The formatter must be on the Opal load path. If it's not, you'll need to append_paths when you define your Rake task (see opal-rspec info)
 * Of the various SPEC_OPTS possibilities RSpec supports, only --require and --format are supported with this GEM
@@ -87,16 +60,6 @@ Install required gems at required versions:
 A simple rake task should run the example specs in `spec/`:
 
     $ bundle exec rake
-
-### Run in the browser
-
-Run attached rack app to handle building:
-
-    $ bundle exec rackup
-
-Visit the page in any browser and view the console:
-
-    $ open http://localhost:9292
 
 ## License
 
