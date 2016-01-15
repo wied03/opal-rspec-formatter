@@ -55,7 +55,8 @@ describe 'JUnit' do
     end
   end
 
-  context 'spring' do
+  # Waiting to see status of spring-opal-rspec
+  xcontext 'spring' do
     include_context :spring
     let(:spec_opts) { '--require opal/rspec/formatters/junit --format Opal::RSpec::Formatters::Junit' }
 

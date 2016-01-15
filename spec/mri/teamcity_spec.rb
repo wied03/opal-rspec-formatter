@@ -38,7 +38,8 @@ describe 'TeamCity', if: Dir.exist?('../teamcity') do
       include_context :fail_example
     end
 
-    context 'spring' do
+    # Waiting to see status of spring-opal-rspec
+    xcontext 'spring' do
       include_context :spring
       # inside test_app
       let(:load_path) { '../../teamcity/patch/common:../../teamcity/patch/bdd' }
