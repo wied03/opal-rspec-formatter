@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
 
   s.require_paths  = ['lib']
 
-  s.add_dependency 'opal-rspec', '>= 0.5.0.beta2'
+  s.add_dependency 'opal-rspec', '>= 0.5.0'
   s.add_dependency 'opal-builder', '~> 3.2'
   s.add_dependency 'rspec_junit_formatter'
   s.add_development_dependency 'rake'

@@ -3,3 +3,4 @@ gemspec
 
 gem 'nokogiri'
 gem 'rspec-expectations'
+gem 'opal-rspec'
